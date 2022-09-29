@@ -1447,6 +1447,11 @@ namespace Radzen
         /// </summary>
         /// <value>The filter.</value>
         public string Filter { get; set; }
+            /// <summary>
+        /// filter for total count.
+        /// </summary>
+        public bool RequireTotalCount {get;set;}
+        
         /// <summary>
         /// Gets the filter expression as a collection of filter descriptors.
         /// </summary>

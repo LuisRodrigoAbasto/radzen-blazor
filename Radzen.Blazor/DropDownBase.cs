@@ -46,7 +46,10 @@ namespace Radzen
 
             if (LoadData.HasDelegate)
             {
-                await LoadData.InvokeAsync(new Radzen.LoadDataArgs() { Skip = request.StartIndex, Top = request.Count, Filter = await JSRuntime.InvokeAsync<string>("Radzen.getInputValue", search) });
+                var newLoad=new Radzen.LoadDataArgs() { Skip = request.StartIndex, Top = request.Count, Filter = await JSRuntime.InvokeAsync<string>("Radzen.getInputValue", search) };
+                newLoad.RequireTotalCount=(FilterPrevious!=newLoad.Filter);
+                await LoadData.InvokeAsync(newLoad);
+                FilterPrevious=newLoad.Filter;
             }
 
             virtualItems = (LoadData.HasDelegate ? Data : view.Skip(request.StartIndex).Take(top)).Cast<object>().ToList();
@@ -660,12 +663,16 @@ namespace Radzen
         /// Gets the load data arguments.
         /// </summary>
         /// <returns>LoadDataArgs.</returns>
+        string FilterPrevious = null;
         internal virtual async System.Threading.Tasks.Task<LoadDataArgs> GetLoadDataArgs()
         {
 #if NET5_0_OR_GREATER
             if (AllowVirtualization)
             {
-                return new Radzen.LoadDataArgs() { Skip = 0, Top = PageSize, Filter = await JSRuntime.InvokeAsync<string>("Radzen.getInputValue", search) };
+                var newDataArgs= new Radzen.LoadDataArgs() { Skip = 0, Top = PageSize, Filter = await JSRuntime.InvokeAsync<string>("Radzen.getInputValue", search) };
+                newDataArgs.RequireTotalCount=(FilterPrevious!=newDataArgs.Filter);
+                FilterPrevious=newDataArgs.Filter;
+                return newDataArgs;
             }
             else
             {
@@ -791,7 +798,7 @@ namespace Radzen
                 }
                 else
                 {
-                    return object.Equals(item,selectedItem);
+                    return object.Equals(item, selectedItem);
                 }
             }
         }

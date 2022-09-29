@@ -235,8 +235,9 @@
         }
 
         console.Log($"LoadData with virtualization: Skip:{args.Skip}, Top:{args.Top}, Filter:{args.Filter}");
-
-        count = query.Count();
+        if(args.RequireTotalCount){
+            count = query.Count();
+        }
 
         customCustomersDataVirtualization = query.Skip(args.Skip.HasValue ? args.Skip.Value : 0).Take(args.Top.HasValue ? args.Top.Value : 10).ToList();
 
