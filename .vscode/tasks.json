@@ -1,0 +1,42 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    
+    {
+      "label": "build Radzen",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/RadzenBlazorDemos/RadzenBlazorDemos.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "publish Radzen",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "publish",
+        "${workspaceFolder}/RadzenBlazorDemos/RadzenBlazorDemos.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "watch Radzen",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "watch",
+        "run",
+        "--project",
+        "${workspaceFolder}/RadzenBlazorDemos/RadzenBlazorDemos.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}
